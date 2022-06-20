@@ -4,10 +4,16 @@ const BASE_URL = 'https://api.baserow.io'
 const API_KEY = process.env.BASEROW_API_KEY
 const TABLE_ID = process.env.BASEROW_TABLE_ID
 const STREAMERS_TABLE_ID = '74787'
+const CHATTERS_TABLE_ID = '74819'
 
-type Streamer = {
+export type Streamer = {
     Name?: string,
     live?: boolean,
+}
+
+export type Chatter = {
+    Name?: string,
+    statsPerStreamer?: string,
 }
 
 export const getTableFields = async () => {
@@ -90,7 +96,30 @@ export const getStreamerByName = async (name: string) => {
     return streamerId
 }
 
+export const getChatterByName = async (name: string) => {
+    const chatterRows = await getTableRows(CHATTERS_TABLE_ID)
+    const chatterRow = chatterRows.find((row: Streamer) => row.Name === name)
+    const chatterId = chatterRow.id
+    if(!chatterId) return null
+    return chatterId
+}
+
 export const updateStreamer = async (name: string, newData: Streamer) => {
     const streamerId = await getStreamerByName(name)
     return updateRow(streamerId, newData, STREAMERS_TABLE_ID)
+}
+
+export const getChatters = async () => {
+    return getTableRows(CHATTERS_TABLE_ID)
+}
+
+export const updateChatter = async (name: string, newData: Streamer) => {
+    const chatterId = await getChatterByName(name)
+    return updateRow(chatterId, newData, CHATTERS_TABLE_ID)
+}
+
+export const addChatter = async (name: string) => {
+    return writeToTable({
+        Name: name,
+    }, CHATTERS_TABLE_ID)
 }

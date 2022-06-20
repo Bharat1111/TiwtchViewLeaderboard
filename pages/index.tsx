@@ -4,10 +4,9 @@ import Layout from "../components/layout"
 export default function IndexPage() {
   return (
     <Layout>
-      <h1>NextAuth.js Example</h1>
+      <h1>Twitch Leaderboard</h1>
       <p>
-        This is an example site to demonstrate how to use{" "}
-        <a href="https://next-auth.js.org">NextAuth.js</a> for authentication.
+        Let's see who's been around go to this site /streamerName to see their stats
       </p>
       <button onClick={() => {
         signIn('twitch')
