@@ -2,8 +2,10 @@ import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
 
 import {
+  AddNewChatters,
   addStreamerFromFrontend,
   checkStreamerExists,
+  getChattersFromTwitch,
 } from "../utils/backendWrapper"
 
 const StreamerPage = () => {
@@ -19,6 +21,16 @@ const StreamerPage = () => {
       })
     }
   }, [streamer])
+
+  useEffect(() => {
+    if (streamerExists) {
+      getChattersFromTwitch(streamer as string).then(data => {
+        let chatters = data.chatters.viewers
+        console.log(chatters)
+        AddNewChatters(streamer as string, chatters)
+      })
+    }
+  }, [streamerExists])
 
   return (
     <div className="w-screen h-screen gap-5 flex flex-col items-center justify-center bg-[#171A21] text-white">

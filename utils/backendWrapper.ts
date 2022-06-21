@@ -15,3 +15,18 @@ export const checkStreamerExists = async (name: string) => {
     }).then(res => res.data as string[])
         .then(streamers => streamers.includes(name))
 }
+
+export const getChattersFromTwitch = async (streamer: string) => {
+    return axios({
+        method: 'GET',
+        url: `/api/twitch/stats?streamer=${streamer}`,
+    }).then(res => res.data)
+}
+
+export const AddNewChatters = async (streamer: string, chatters: string[]) => {
+    return axios({
+        method: 'POST',
+        url: '/api/batch/loadChatters',
+        data: chatters
+    })
+}

@@ -113,13 +113,14 @@ export const getChatters = async () => {
     return getTableRows(CHATTERS_TABLE_ID)
 }
 
-export const updateChatter = async (name: string, newData: Streamer) => {
+export const updateChatter = async (name: string, newData: any) => {
     const chatterId = await getChatterByName(name)
     return updateRow(chatterId, newData, CHATTERS_TABLE_ID)
 }
 
-export const addChatter = async (name: string) => {
+export const addChatter = async (name: string, newData?: any) => {
     return writeToTable({
         Name: name,
+        ...newData
     }, CHATTERS_TABLE_ID)
 }
